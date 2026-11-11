@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colombia & FARC-EP: Socio-Political Conflict & Peacebuilding</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Data Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-canvas: #F4F1EA;
+            --bg-card: #FFFFFF;
+            --bg-card-active: #EFEBE4;
+            --bg-sidebar: #EBE6DC;
+            --accent-jungle: #2D5A27;
+            --accent-gold: #8C5A2B;
+            --accent-gold-bright: #B86F28;
+            --accent-red: #9E2A2B;
+            --text-main: #1A201C;
+            --text-muted: #5C655E;
+            --border-subtle: #D2C9B8;
+            --font-typewriter: 'Courier Prime', monospace;
+            --font-stamp: 'Special Elite', monospace;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background-image: radial-gradient(rgba(140, 90, 43, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* TOP NAVBAR */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(244, 241, 234, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-typewriter);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .stamp-badge {
+            font-family: var(--font-stamp);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transform: rotate(-1.5deg);
+            background: rgba(158, 42, 43, 0.05);
+        }
+
+        .btn-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-gold);
+            font-family: var(--font-typewriter);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-nav:hover {
+            border-color: var(--accent-gold-bright);
+            background: var(--bg-card-active);
+        }
+
+        /* SLIDE CONTAINER */
+        .deck-container {
+            position: relative;
+            width: 100vw;
+            height: calc(100vh - 104px);
+            margin-top: 56px;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            transform: scale(0.99);
+            padding: 20px 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        /* SLIDE HEADER */
+        .slide-header {
+            margin-bottom: 12px;
+        }
+
+        .slide-badge {
+            font-family: var(--font-typewriter);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .slide-title {
+            font-family: var(--font-typewriter);
+            font-size: 1.5rem;
+            color: #1A201C;
+            font-weight: 700;
+        }
+
+        /* 50/50 SPLIT SCREEN LAYOUT */
+        .split-grid-50 {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 20px;
+            flex: 1;
+            height: calc(100% - 60px);
+        }
+
+        /* LEFT SIDEBAR NAVIGATION */
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .nav-item-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-left: 4px solid rgba(140, 90, 43, 0.3);
+            padding: 12px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item-card:hover {
+            border-color: var(--accent-gold);
+            background: var(--bg-card-active);
+        }
+
+        .nav-item-card.active {
+            border-left-color: var(--accent-gold);
+            background: var(--bg-card-active);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-item-card.red-active.active {
+            border-left-color: var(--accent-red);
+        }
+
+        .card-step {
+            font-family: var(--font-typewriter);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-label {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.35;
+        }
+
+        /* RIGHT DISPLAY PANEL */
+        .display-panel-50 {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .content-block {
+            display: none;
+            height: 100%;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .content-block.active {
+            display: flex;
+            gap: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 50/50 COLUMNS */
+        .block-text-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .block-media-col {
+            flex: 1;
+            height: 100%;
+            background: #EFEBE4;
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding: 8px;
+        }
+
+        .block-media-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.25s ease;
+        }
+
+        .block-media-col img:hover {
+            transform: scale(1.015);
+        }
+
+        .media-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(244, 241, 234, 0.95);
+            padding: 6px 12px;
+            font-family: var(--font-typewriter);
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+
+        .block-title {
+            font-family: var(--font-typewriter);
+            font-size: 1.25rem;
+            color: var(--accent-gold-bright);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .block-body-text {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        .block-body-text strong {
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .quote-box {
+            font-family: var(--font-typewriter);
+            background: rgba(140, 90, 43, 0.08);
+            border-left: 3px solid var(--accent-gold);
+            padding: 8px 10px;
+            border-radius: 4px;
+            color: var(--accent-gold-bright);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .stat-badges-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .stat-badge-box {
+            flex: 1;
+            background: rgba(158, 42, 43, 0.08);
+            border: 1px solid var(--accent-red);
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-typewriter);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-red);
+        }
+
+        .stat-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            color: var(--text-main);
+            margin-top: 2px;
+        }
+
+        /* BANNER LINK FOR NEW LEADER */
+        .new-leader-banner {
+            margin-top: 10px;
+            background: var(--accent-red);
+            color: #FFFFFF;
+            padding: 10px 14px;
+            border-radius: 4px;
+            font-family: var(--font-typewriter);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(158, 42, 43, 0.2);
+        }
+
+        .new-leader-banner:hover {
+            background: #B83234;
+            transform: translateY(-1px);
+        }
+
+        /* COVER STYLING */
+        .cover-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            height: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 32px;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .cover-title {
+            font-family: var(--font-typewriter);
+            font-size: 2.3rem;
+            color: #1A201C;
+            line-height: 1.25;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .start-btn {
+            background: var(--accent-gold);
+            color: #FFFFFF;
+            font-family: var(--font-typewriter);
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 4px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .start-btn:hover {
+            background: var(--accent-gold-bright);
+            transform: translateY(-2px);
+        }
+
+        /* BOTTOM NAV BAR */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: rgba(244, 241, 234, 0.95);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .slide-counter {
+            font-family: var(--font-typewriter);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .progress-line-container {
+            flex: 1;
+            max-width: 400px;
+            height: 4px;
+            background: #EBE6DC;
+            border-radius: 2px;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: var(--accent-gold);
+            width: 12.5%;
+            transition: width 0.3s ease;
+        }
+
+        .arrow-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .arrow-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-gold);
+            font-family: var(--font-typewriter);
+            font-weight: 700;
+            width: 36px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .arrow-btn:hover {
+            border-color: var(--accent-gold-bright);
+            color: var(--accent-gold-bright);
+        }
+
+        /* MODAL OVERLAY */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 32, 28, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 88vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-canvas);
+        }
+
+        .modal-title {
+            font-family: var(--font-typewriter);
+            color: var(--accent-gold);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            max-height: 65vh;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .modal-caption {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        /* DIRECTORY MENU */
+        .directory-popup {
+            position: fixed;
+            top: 64px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            width: 380px;
+            padding: 12px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 200;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .directory-popup.active {
+            display: flex;
+        }
+
+        .dir-item {
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-family: var(--font-typewriter);
+            font-size: 0.82rem;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .dir-item:hover {
+            background: var(--bg-card-active);
+            color: var(--accent-gold);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-nav">
+        <div class="brand-logo">
+            <span>🇨🇴</span>
+            <span>COLOMBIA: FARC-EP & SOCIO-POLITICAL CONFLICT</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px;">
+            <span class="stamp-badge">DOSSIER 1948–2026</span>
+            <button class="btn-nav" onclick="toggleDirectory()">
+                <span>📑</span> Directory
+            </button>
+        </div>
+    </header>
+
+    <!-- DIRECTORY POPUP (8 SLIDES) -->
+    <div class="directory-popup" id="dirPopup">
+        <div class="dir-item" onclick="goToSlide(0)">1. Title & Geopolitical Overview</div>
+        <div class="dir-item" onclick="goToSlide(1)">2. Act I & II: Roots, Agrarian Resistance & FARC-EP 1948–1982</div>
+        <div class="dir-item" onclick="goToSlide(2)">3. Act III: La Uribe Accords & Genocide of UP 1984–1990s</div>
+        <div class="dir-item" onclick="goToSlide(3)">4. Act IV: Escalation, Military Stalemate & Path to Peace 1990–2016</div>
+        <div class="dir-item" onclick="goToSlide(4)">5. Act V: Trauma, Victim Toll & International Mediation</div>
+        <div class="dir-item" onclick="goToSlide(5)">6. Act VI: The 2016 Havana Peace Accord — 6 Core Points</div>
+        <div class="dir-item" onclick="goToSlide(6)">7. Act VII: Transitional Justice & Special Jurisdiction for Peace</div>
+        <div class="dir-item" onclick="goToSlide(7)">8. Act VIII: Current Implementation Status — Kroc Institute Report</div>
+    </div>
+
+    <!-- MAIN SLIDE CONTAINER -->
+    <main class="deck-container">
+
+        <!-- SLIDE 1: COVER / GEOPOLITICS -->
+        <section class="slide active" id="slide-0">
+            <div class="cover-split">
+                <div class="cover-left">
+                    <span class="slide-badge">UN & Conflict Management Academic Seminar</span>
+                    <h1 class="cover-title">Colombia & FARC-EP:<br>Socio-Political Conflict and Peacebuilding</h1>
+                    <button class="start-btn" onclick="nextSlide()">Begin Presentation →</button>
+                </div>
+                <div class="block-media-col">
+                    <img src="images/colombia_satellite.jpeg" alt="Satellite Map of Colombia" onclick="openModal('images/colombia_satellite.jpeg', 'Topographical Satellite Map of Colombia: Highlighting the three Andean Cordilleras and remote peripheral agrarian frontiers.')">
+                    <div class="media-caption">📷 Figure 1: Colombia Satellite Map — Geography of Conflict</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: ACT I & II MERGED (1948–1982) -->
+        <section class="slide" id="slide-1">
+            <div class="slide-header">
+                <span class="slide-badge">Module 1 • Historical Causality & Guerrilla Formation</span>
+                <h2 class="slide-title">Act I & II: Historical Roots, Agrarian Resistance & Rise of FARC-EP 1948–1982</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active" onclick="switchTab('act12', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">1948–1953 | La Violencia & Agrarian Dispossession</div>
+                    </div>
+                    <div class="nav-item-card" onclick="switchTab('act12', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">1953–1966 | Amnesty Trap, Republics & FARC Founding</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act12', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">1966–1982 | Frontier Governance, Coca & FARC-EP</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50">
+                    <!-- PILLAR 1 -->
+                    <div class="content-block active" id="act12-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Gaitán Murder 1948 ──► El Bogotazo ──► Chulavita Terror ──► <strong>Massive Land Dispossession</strong>
+                                </div>
+                                <h3 class="block-title">1. La Violencia & Economic Dispossession</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. The 1948 Spark:</strong> Populist leader <strong>Jorge Eliécer Gaitán</strong> was assassinated, triggering <strong>El Bogotazo</strong> and ten years of bloody civil war known as <strong>La Violencia</strong> with over two hundred thousand deaths. Elite monopoly left over <mark style="background:rgba(140,90,43,0.15); padding:1px 4px; font-weight:700;">80% of fertile land</mark> in the hands of one percent of landowners.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. Chulavita Paramilitarism:</strong> Government-armed Conservative militias known as <strong>Chulavitas</strong> attacked Liberal peasants with total impunity under local landlord control known as <strong>Gamonalismo</strong>.</p>
+                                    <p><strong>3. Economic Tool of Terror:</strong> Violence forced peasants off fertile coffee lands in an economic dispossession tactic called <strong>El Despojo</strong>, allowing big landowners to <strong>seize working plantations</strong> at zero cost.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/gaitan.jpg" alt="Jorge Eliécer Gaitán" onclick="openModal('images/gaitan.jpg', 'Jorge Eliécer Gaitán addressing working-class crowds during a political rally in Bogotá.')">
+                            <div class="media-caption">📷 Jorge Eliécer Gaitán & Bipartisan Violence 1948–1953</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2 -->
+                    <div class="content-block" id="act12-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> 1953 Amnesty Trap ──► Peasant Enclaves ──► Marquetalia Attack 1964 ──► <strong>FARC Founding 1966</strong>
+                                </div>
+
+                                <h3 class="block-title">2. Independent Republics & Birth of FARC</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. The Amnesty Trap of 1953:</strong> Peasants who surrendered arms were <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:1px 4px; font-weight:700;">murdered by landlord militias</mark>. <strong>Manuel Marulanda Tirofijo</strong> refused to disarm and retreated into the jungle.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. Independent Republics:</strong> Displaced families built autonomous farming zones in areas such as <strong>Marquetalia</strong>, which politicians falsely labeled as an illegal communist threat.</p>
+                                    <p><strong>3. Operation Marquetalia of 1964:</strong> Sixteen thousand state troops backed by the United States attacked <strong>48 armed peasants</strong>. This forced a shift from self-defense to a mobile national army, founding <strong>FARC in 1966</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/tifijoarenas.jpg" alt="Manuel Marulanda and Jacobo Arenas" onclick="openModal('images/tifijoarenas.jpg', 'Manuel Marulanda Tirofijo and Jacobo Arenas in the jungle.')">
+                            <div class="media-caption">📷 Manuel Marulanda Tirofijo & Jacobo Arenas — FARC Founders</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3 -->
+                    <div class="content-block" id="act12-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background:rgba(158,42,43,0.06); border-left-color:var(--accent-red); color:var(--accent-red);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> PCC Frontier Governance ──► Coca Gramaje ──► Rise of MAS ──► <strong>7th Conference Army of the People</strong>
+                                </div>
+
+                                <h3 class="block-title" style="color:var(--accent-red);">3. Coca Boom & Transformation into FARC Army of the People</h3>
+                                
+                                <div class="block-body-text" style="font-size:0.9rem; line-height:1.45;">
+                                    <p style="margin-bottom:6px;"><strong>1. De Facto Statehood from 1966 to 1977:</strong> Guided by the Colombian Communist Party PCC, FARC enforced local order and settled land disputes in remote jungle frontiers such as Caquetá and Meta.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. The Coca Boom from 1978 to 1981:</strong> Taxing the coca paste trade through a system called <strong>gramaje</strong> provided <strong>financial independence</strong>. This expansion triggered violent backlash from drug lords, creating <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:1px 4px; font-weight:700;">MAS in 1981</mark> as the first modern paramilitary group.</p>
+                                    <p><strong>3. Birth of FARC Army of the People in 1982:</strong> At their Seventh Conference, FARC adopted the Army of the People suffix, creating an <strong>80-front plan</strong> to encircle cities and force state negotiations in 1984.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block-media-col" style="display: grid; grid-template-rows: 1fr 1fr; gap: 8px; padding: 8px; background: #EFEBE4; border: 1px solid var(--border-subtle); border-radius: 4px;">
+                            <div style="position: relative; border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; background: #E5DFD3;">
+                                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                                    <img src="images/mas.png" alt="1981 MAS Announcement" onclick="openModal('images/mas.png', '1981 MAS Muerte a Secuestradores announcement.')" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer;">
+                                </div>
+                                <div style="background: rgba(244, 241, 234, 0.95); padding: 2px 6px; font-family: var(--font-typewriter); font-size: 0.65rem; color: var(--accent-red); border-top: 1px solid var(--border-subtle); text-align: center; font-weight: bold;">
+                                    📷 1981 MAS Announcement
+                                </div>
+                            </div>
+                            <div style="position: relative; border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; background: #E5DFD3;">
+                                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                                    <img src="images/Revolutionary-Armed_Forces-of-Colombia-FARC-insurgents-resized2.jpeg.webp" alt="FARC Insurgents in the Jungle" onclick="openModal('images/Revolutionary-Armed_Forces-of-Colombia-FARC-insurgents-resized2.jpeg.webp', 'FARC insurgent columns operating in rural jungle frontiers.')" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer;">
+                                </div>
+                                <div style="background: rgba(244, 241, 234, 0.95); padding: 2px 6px; font-family: var(--font-typewriter); font-size: 0.65rem; color: var(--accent-gold); border-top: 1px solid var(--border-subtle); text-align: center; font-weight: bold;">
+                                    📷 FARC Jungle Columns c. 1980s
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: MODULE 1 ACT III (LA URIBE ACCORDS & GENOCIDE OF UNION PATRIOTICA) -->
+        <section class="slide" id="slide-2">
+            <div class="slide-header">
+                <span class="slide-badge">Module 1 • Political Exclusion & Failed Peace</span>
+                <h2 class="slide-title">Act III: La Uribe Accords & Genocide of Unión Patriótica 1984–1990s</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active red-active" onclick="switchTab('up', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">1984–1985 | The La Uribe Accords & UP Test</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('up', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">1986 | Electoral Success & Elite Backlash</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('up', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">1987–1990s | Plan Baile Rojo & End of Peace</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50" style="border-left: 4px solid var(--accent-red);">
+                    <!-- PILLAR 1 -->
+                    <div class="content-block active" id="up-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background:rgba(158,42,43,0.06); border-left-color:var(--accent-red); color:var(--accent-red);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Betancur Peace Plan ──► 1984 Ceasefire ──► Peace Without Disarming ──► <strong>Creation of UP 1985</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">1. The 1984 Accords & Democratic Test</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. The 1984 Accords:</strong> President <strong>Belisario Betancur</strong> accepted that war was caused by <strong>poverty and political exclusion</strong>, signing a bilateral ceasefire with FARC.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Testing Democracy:</strong> Rather than surrendering their weapons first, FARC created <strong>Unión Patriótica</strong> in 1985 as a legal party to test if the state would allow peaceful left-wing opposition.</p>
+                                    <p><strong>3. Broad Coalition:</strong> Unión Patriótica united <strong>demobilized guerrillas</strong>, <strong>Communist Party members</strong>, <strong>trade unions</strong>, <strong>peasant leaders</strong>, and left-wing intellectuals.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/unionpatriotica.jpeg" alt="Mass Mobilization for UP" onclick="openModal('images/unionpatriotica.jpeg', 'Civic mobilization supporting the creation of Unión Patriótica as a legal political party following the 1984 La Uribe Accords.')">
+                            <div class="media-caption">📷 Mass Mobilization & Civic Support for Democratic Opening 1985</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2 -->
+                    <div class="content-block" id="up-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background:rgba(158,42,43,0.06); border-left-color:var(--accent-red); color:var(--accent-red);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> UP Platform ──► 1986 Election Victory ──► Threat to Elite Power ──► <strong>Landlord & Cartel Backlash</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">2. Electoral Success & Elite Backlash</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Big Election Wins in 1986:</strong> Unión Patriótica broke the historic Liberal-Conservative monopoly, winning <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:2px 4px; font-weight:700;">14 seats in Congress</mark>, <strong>18 mayoralties</strong>, and over <strong>350 local council seats</strong>.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Presidential Vote:</strong> Candidate <strong>Jaime Pardo Leal</strong> won over <strong>four percent of the national vote</strong> with three hundred twenty-eight thousand votes, setting a historic record for the Colombian left.</p>
+                                    <p><strong>3. Elite Backlash:</strong> Rapid growth of Unión Patriótica in rural areas such as Urabá, Meta, and Caquetá frightened <strong>rich landowners</strong>, <strong>military commanders</strong>, and drug cartels such as the Medellín Cartel.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/jaime_pardo_.jpg" alt="Jaime Pardo Leal Speaking" onclick="openModal('images/jaime_pardo_.jpg', 'Jaime Pardo Leal addressing mass crowds during the 1986 presidential campaign.')">
+                            <div class="media-caption">📷 Jaime Pardo Leal — Presidential Candidate & Historic Electoral Breakthrough 1986</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3 -->
+                    <div class="content-block" id="up-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background:rgba(158,42,43,0.06); border-left-color:var(--accent-red); color:var(--accent-red);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Plan Baile Rojo ──► Murder of Candidates ──► Political Genocide ──► <strong>Return to 30 Years of War</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">3. Plan Baile Rojo & Political Genocide</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. Plan Baile Rojo:</strong> State intelligence, rich landowners, and drug paramilitaries MAS launched a systematic plan to murder members of Unión Patriótica.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. Decapitation of Leaders:</strong> Murdered two presidential candidates, <strong>Jaime Pardo Leal in 1987</strong> and <strong>Bernardo Jaramillo Ossa in 1990</strong>, alongside twenty-four congressmen and mayors and thousands of activists.</p>
+
+                                    <div class="stat-badges-container" style="margin-top:6px; margin-bottom:6px;">
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">2</div>
+                                            <div class="stat-label">Presidential Candidates Murdered</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">24+</div>
+                                            <div class="stat-label">Congressmen & Mayors Killed</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">5,733</div>
+                                            <div class="stat-label">Documented Victims (IACHR 2023)</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="quote-box" style="margin-top:6px; background:rgba(158,42,43,0.05); border-left-color:var(--accent-red); color:var(--accent-red); font-size:0.85rem;">
+                                        📌 <strong>KEY TAKEAWAY:</strong> The systematic murder of Unión Patriótica proved that legal politics was a lethal trap, destroying the 1984 peace process and triggering thirty more years of war.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/genocidio.jpg" alt="Victim Relative Holding Sign" onclick="openModal('images/genocidio.jpg', 'Relative of a victim holding a sign during a commemoration rally, reflecting the 2023 Inter-American Court ruling.')">
+                            <div class="media-caption">📷 Victim Memory & The 2023 Inter-American Court Political Genocide Verdict</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: MODULE 1 ACT IV MERGED (1990–2016) -->
+        <section class="slide" id="slide-3">
+            <div class="slide-header">
+                <span class="slide-badge">Module 1 • Total War, State Offensives & Path to Negotiation</span>
+                <h2 class="slide-title">Act IV: Escalation, Military Stalemate & Path to Peace 1990–2016</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active" onclick="switchTab('act4', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">1990–2002 | War of Movement & US Plan Colombia</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act4', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">2002–2010 | "Seguridad Democrática" & Leadership Decapitation</div>
+                    </div>
+                    <div class="nav-item-card" onclick="switchTab('act4', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">2010–2016 | Military Stalemate & Transition to Havana</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50">
+                    <!-- PILLAR 1 -->
+                    <div class="content-block active" id="act4-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Closed Legal Politics ──► War of Movement ──► AUC Terror ──► <strong>US Plan Colombia 2000</strong>
+                                </div>
+                                <h3 class="block-title">1. War of Movement & US Plan Colombia</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. Open Warfare & War Economy:</strong> Following the UP genocide, FARC shifted to <strong>large army operations</strong>, raiding military bases and funding <strong>20,000 fighters</strong> through coca taxation and <strong>highway kidnappings</strong> known as <strong>pescas milagrosas</strong>.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. AUC Paramilitary Terror:</strong> In 1997, landowners, cartels, and military sectors created the <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:1px 4px; font-weight:700;">AUC paramilitaries</mark>, launching <strong>systematic massacres</strong> against civilians in places such as Mapiripán and El Salado.</p>
+                                    <p><strong>3. Caguán Collapse & Plan Colombia:</strong> Peace talks in the demilitarized Caguán zone failed in an episode remembered as <strong>La Silla Vacía</strong>. In response, Colombia and the United States launched <strong>Plan Colombia in 2000</strong> with over <strong>7 billion dollars in military aid</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DOUBLE PHOTO PANEL -->
+                        <div class="block-media-col" style="display: grid; grid-template-rows: 1fr 1fr; gap: 8px; padding: 8px; background: #EFEBE4; border: 1px solid var(--border-subtle); border-radius: 4px;">
+                            <div style="position: relative; border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; background: #E5DFD3;">
+                                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                                    <img src="images/silla.jpg" alt="La Silla Vacía 1999" onclick="openModal('images/silla.jpg', 'President Pastrana at the empty chair reserved for Manuel Marulanda in 1999.')" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer;">
+                                </div>
+                                <div style="background: rgba(244, 241, 234, 0.95); padding: 2px 6px; font-family: var(--font-typewriter); font-size: 0.65rem; color: var(--accent-red); border-top: 1px solid var(--border-subtle); text-align: center; font-weight: bold;">
+                                    📷 La Silla Vacía 1999
+                                </div>
+                            </div>
+                            <div style="position: relative; border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; background: #E5DFD3;">
+                                <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                                    <img src="images/plan-colombia.jpg" alt="Plan Colombia Helicopters" onclick="openModal('images/plan-colombia.jpg', 'U.S.-supplied Black Hawk helicopters during Plan Colombia.')" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer;">
+                                </div>
+                                <div style="background: rgba(244, 241, 234, 0.95); padding: 2px 6px; font-family: var(--font-typewriter); font-size: 0.65rem; color: var(--accent-gold); border-top: 1px solid var(--border-subtle); text-align: center; font-weight: bold;">
+                                    📷 Plan Colombia 2000 Airstrikes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2 -->
+                    <div class="content-block" id="act4-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Uribe Offensives ──► Jungle Retreat ──► Decapitation of Command ──► <strong>Falsos Positivos Crisis</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">2. "Seguridad Democrática" & Decapitation</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. Full-Scale State Offensive:</strong> President Álvaro Uribe launched <strong>Seguridad Democrática</strong> under Plan Patriota, clearing highways and pushing FARC columns into <strong>remote border jungles</strong> near Ecuador and Venezuela.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. Decapitation of High Command:</strong> Precision strikes backed by the United States killed top leaders <strong>Raúl Reyes in 2008</strong>, <strong>Mono Jojoy in 2010</strong>, and <strong>Alfonso Cano in 2011</strong>, while founder <strong>Manuel Marulanda</strong> died naturally in 2008.</p>
+                                    <p><strong>3. Falsos Positivos Crisis:</strong> Intense pressure for body counts led army units to execute over <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:1px 4px; font-weight:700;">6,400 innocent civilians</mark>, falsely presenting them as guerrillas killed in combat.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/madresoacha.jpg" alt="Madres de Soacha Protest" onclick="openModal('images/madresoacha.jpg', 'Madres de Soacha holding portraits of their sons extrajudicially executed in the Falsos Positivos scandal.')">
+                            <div class="media-caption">📷 Falsos Positivos Crisis — 6,400+ Executed Civilians</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3 -->
+                    <div class="content-block" id="act4-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Military Deadlock ──► Santos Presidency 2010 ──► Secret Exploration ──► <strong>2016 Havana Accords</strong>
+                                </div>
+                                <h3 class="block-title">3. Military Stalemate & Transition to Havana</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Recognition of Stalemate:</strong> Elected in 2010, President Juan Manuel Santos recognized that while FARC was weakened, the military could not defeat them completely without endless war.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Secret Peace Talks:</strong> Santos and new FARC leader <strong>Timoleón Jiménez Timochenko</strong> initiated secret exploratory talks to build a strict six-point peace agenda.</p>
+                                    <div class="quote-box" style="margin-top:10px; background: rgba(158, 42, 43, 0.05); border-left-color: var(--accent-red); color: var(--accent-red); font-size: 0.85rem;">
+                                        📌 <strong>KEY TAKEAWAY:</strong> Both sides agreed that political negotiation was the only way out, laying the ground for the historic <strong>2016 Havana Peace Agreement</strong>.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/dialogosdelpaz.jpg.avif" alt="Havana Peace Negotiation Table" onclick="openModal('images/dialogosdelpaz.jpg.avif', 'Formal peace negotiation table established in Havana between the Colombian government and FARC in 2012.')">
+                            <div class="media-caption">📷 Formal Peace Negotiation Table Established in Havana 2012</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: MODULE 2 ACT V (TRAUMA, VICTIM TOLL & INTERNATIONAL MEDIATION) -->
+        <section class="slide" id="slide-4">
+            <div class="slide-header">
+                <span class="slide-badge">Module 2 • Human Toll, Responsibility Breakdown & Diplomacy</span>
+                <h2 class="slide-title">Act V: Dimensions of Trauma, Victim Toll & International Mediation</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active red-active" onclick="switchTab('act5', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">Dimensions of Trauma | Displacement, Disappearances & Mines</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act5', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">The Overall Toll | Truth Commission & Responsibility Breakdown</div>
+                    </div>
+                    <div class="nav-item-card" onclick="switchTab('act5', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">Who Enabled Peace? | International Facilitators & Diplomacy</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50" style="border-left: 4px solid var(--accent-red);">
+                    <!-- PILLAR 1: DIMENSIONS OF TRAUMA -->
+                    <div class="content-block active" id="act5-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Territorial Warfare ──► 8.5M+ Internal Displacement ──► 100k+ Disappeared ──► <strong>11k+ Landmine Victims</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">1. Dimensions of Human Trauma</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Forced Displacement:</strong> Armed groups forced over <strong>8.5 million people</strong> off their lands, making Colombia one of the countries with the highest internal displacement globally.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Enforced Disappearances:</strong> Over <strong>100,000 people</strong> were forcibly disappeared by paramilitaries, state forces, and guerrillas combined.</p>
+                                    <p><strong>3. Landmine Legacy:</strong> Improvised anti-personnel landmines left Colombia as the second most mine-affected country in the world, causing <strong>11,000+ casualties</strong> among soldiers and civilians.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/desplazados-1024x699-1.jpg" alt="Somos Desplazados Protest" onclick="openModal('images/desplazados-1024x699-1.jpg', 'Demonstration banner holding victims of forced internal displacement in Colombia.')">
+                            <div class="media-caption">📷 Dimensions of Trauma — Over 8.5 Million Internally Displaced Persons</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2: TRUTH COMMISSION RESPONSIBILITY BREAKDOWN -->
+                    <div class="content-block" id="act5-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> 60-Year Conflict ──► 260k-450k Deaths ──► Responsibility Split: AUC 45%, FARC 21%, State 12% ──► <strong>Truth Data</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">2. Truth Commission & Responsibility Breakdown</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:6px;"><strong>1. Massive Civilian Toll:</strong> Over 60 years of war caused between <strong>260,000 and 450,000 deaths</strong>, with over <mark style="background:rgba(158,42,43,0.15); color:var(--accent-red); padding:1px 4px; font-weight:700;">80% being non-combatant civilians</mark>.</p>
+                                    <p style="margin-bottom:6px;"><strong>2. Paramilitary Responsibility Share:</strong> AUC paramilitaries were responsible for <strong>45% of total homicide victims</strong> during the conflict.</p>
+                                    <p style="margin-bottom:6px;"><strong>3. Guerrilla and State Responsibility Share:</strong> FARC guerrillas were responsible for <strong>21% of total homicides</strong>, while state security forces were responsible for <strong>12% of direct homicides</strong> alongside documented complicity in paramilitary actions.</p>
+
+                                    <div class="stat-badges-container" style="margin-top:6px;">
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">45%</div>
+                                            <div class="stat-label">AUC Paramilitary Share</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">21%</div>
+                                            <div class="stat-label">FARC Guerrilla Share</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">12%</div>
+                                            <div class="stat-label">State Forces Direct Share</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">80%+</div>
+                                            <div class="stat-label">Civilians Killed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/Comision-Verdad-Colombia-Amplia-plazo-Comision-Jefferson-Jaramillo.jpg.webp" alt="Comision de la Verdad" onclick="openModal('images/Comision-Verdad-Colombia-Amplia-plazo-Comision-Jefferson-Jaramillo.jpg.webp', 'Official branding and institutional hearing table of the Colombian Truth Commission.')">
+                            <div class="media-caption">📷 Truth Commission — Official Data on 450,000+ Victims & Responsibility Shares</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3: INTERNATIONAL DIPLOMACY & FACILITATORS -->
+                    <div class="content-block" id="act5-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Secret Exploration ──► Guarantor Nations ──► Regional Trust ──► <strong>Havana Table</strong>
+                                </div>
+                                <h3 class="block-title">3. Who Enabled Peace? International Facilitators</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Guarantor Nations Cuba and Norway:</strong> Cuba hosted the official negotiations in Havana, while Norway provided expert diplomatic mediation to resolve impasses between the government and FARC.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Accompanying Nations Venezuela and Chile:</strong> Venezuela under Hugo Chávez and Nicolás Maduro and Chile provided political trust, encouraging FARC to stay at the negotiation table.</p>
+                                    <p><strong>3. UN and International Support:</strong> The UN Security Council and the United States through Special Envoy Bernard Aronson backed the negotiations, protecting the process from international isolation.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/paz.avif" alt="Santos, Timochenko and Castro" onclick="openModal('images/paz.avif', 'President Santos and FARC commander Timochenko shaking hands alongside Raul Castro in Havana.')">
+                            <div class="media-caption">📷 International Facilitators — Santos, Timochenko and Raúl Castro in Havana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: MODULE 2 ACT VI (THE 2016 HAVANA ACCORD - 6 CORE POINTS) -->
+        <section class="slide" id="slide-5">
+            <div class="slide-header">
+                <span class="slide-badge">Module 2 • Institutional Architecture & Peace Engineering</span>
+                <h2 class="slide-title">Act VI: The 2016 Havana Peace Accord — Breakdown of the 6 Core Points</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active" onclick="switchTab('act6', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">Points 1 & 2 | Structural Roots & Democratic Opening</div>
+                    </div>
+                    <div class="nav-item-card" onclick="switchTab('act6', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">Points 3 & 4 | End of Conflict & Illegal Economies</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act6', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">Points 5 & 6 | Transitional Justice & UN Verification</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50">
+                    <!-- PILLAR 1 -->
+                    <div class="content-block active" id="act6-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Structural Land Inequality ──► Rural Investment RRI ──► Political Access ──► <strong>CITREP Victims Seats</strong>
+                                </div>
+                                <h3 class="block-title">1. Structural Roots & Democratic Opening</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Point 1 — Comprehensive Rural Reform:</strong> Fixes historical root causes by creating a 3-million-hectare Land Fund, giving legal titles for 7 million hectares to peasants, and building infrastructure in <strong>16 high-conflict zones known as PDET</strong>.</p>
+                                    <p><strong>2. Point 2 — Political Participation & CITREP:</strong> Opens democratic space by turning FARC into a legal political party named Comunes and reserving <mark style="background:rgba(140,90,43,0.15); padding:2px 4px; font-weight:700;">16 Special Peace Seats CITREP</mark> in Congress strictly for victims of the conflict.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/P1-PIEZA-1-scaled.jpg" alt="Comprehensive Rural Reform Punto 1" onclick="openModal('images/P1-PIEZA-1-scaled.jpg', 'Official implementation graphics for Point 1: Comprehensive Rural Reform.')">
+                            <div class="media-caption">📷 Points 1 & 2 — Comprehensive Rural Reform RRI & CITREP Peace Seats for Victims</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2 -->
+                    <div class="content-block" id="act6-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Bilateral Ceasefire ──► 7,132 Weapons Handover ──► Crop Substitution PNIS ──► <strong>Public Health Model</strong>
+                                </div>
+                                <h3 class="block-title">2. End of Conflict & Illegal Economies</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Point 3 — End of Conflict & UN Disarmament:</strong> Establishes a bilateral ceasefire and gathers fighters into 26 transition zones, leading to the <mark style="background:rgba(140,90,43,0.15); padding:2px 4px; font-weight:700;">complete handover of 7,132 weapons</mark> verified by the UN.</p>
+                                    <p><strong>2. Point 4 — Solution to Illicit Crops:</strong> Replaces forced crop destruction with <strong>voluntary substitution agreements through PNIS</strong>, treats drug use as a <strong>public health issue</strong>, and focuses police force on cartels and money laundering.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/onuY.jpg.avif" alt="UN Observers Verifying Arms" onclick="openModal('images/onuY.jpg.avif', 'UN Observers collecting, inventorying, and storing surrendered FARC weapons.')">
+                            <div class="media-caption">📷 Points 3 & 4 — UN-Monitored Disarmament & PNIS Crop Substitution</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3 -->
+                    <div class="content-block" id="act6-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Restorative Justice System ──► JEP Court Hearings ──► UN Security Council Mandate ──► <strong>International Verification</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">3. Transitional Justice & UN Verification</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Point 5 — Victims Rights & The JEP Court:</strong> Creates a comprehensive system with the Truth Commission, the Search Unit for Disappeared Persons, and the <strong>Special Jurisdiction for Peace JEP</strong>, prioritizing <strong>restorative truth and reparations</strong> over traditional prison sentences.</p>
+                                    <p><strong>2. Point 6 — Implementation & UN Verification:</strong> Sets up a follow-up committee CSIVI backed by <strong>UN Security Council Resolutions</strong>, deploying international UN observers to guarantee long-term compliance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/L67VZZLL5BB57LWCSSDH3H74RE.jpg.avif" alt="JEP Hearing Bench" onclick="openModal('images/L67VZZLL5BB57LWCSSDH3H74RE.jpg.avif', 'Magistrates presiding over a public hearing at the Special Jurisdiction for Peace JEP.')">
+                            <div class="media-caption">📷 Points 5 & 6 — Special Jurisdiction for Peace JEP & UN Verification Mission</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: ACT VII (TRANSITIONAL JUSTICE & SPECIAL JURISDICTION FOR PEACE) -->
+        <section class="slide" id="slide-6">
+            <div class="slide-header">
+                <span class="slide-badge">Module 2 • Restorative Justice, Victim Centrality & Real Cases</span>
+                <h2 class="slide-title">Act VII: Transitional Justice & The Special Jurisdiction for Peace</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active" onclick="switchTab('act7', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">The Transitional Model | Restorative vs Retributive Justice</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act7', 1)">
+                        <div class="card-step">Pillar 2</div>
+                        <div class="card-label">The JEP Court Mechanics | Truth for Conditional Sanctions</div>
+                    </div>
+                    <div class="nav-item-card red-active" onclick="switchTab('act7', 2)">
+                        <div class="card-step">Pillar 3</div>
+                        <div class="card-label">Victim Centrality | Public Recognition Hearings</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50">
+                    <!-- PILLAR 1 -->
+                    <div class="content-block active" id="act7-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold);">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Standard Retributive Jail ──► Restorative Truth Model ──► Community Work ──► <strong>Sustainable Peace</strong>
+                                </div>
+                                <h3 class="block-title">1. The Transitional Model — Restorative vs Retributive</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Beyond Standard Punishment:</strong> Traditional courts focus only on prison time, but transitional justice balances punishment with victim rights to prevent endless war and build lasting peace.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Restorative Sanctions:</strong> Demobilized fighters who tell the full truth do not go to ordinary prisons, but serve five to eight years performing community restorative works under UN supervision.</p>
+                                    <p><strong>3. Real Example of Humanitarian Landmine Clearing:</strong> Former FARC combatants worked directly alongside military units in rural locations such as El Orejón to remove anti-personnel landmines and restore farmland to local peasants.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/desminado.jpeg.webp" alt="Humanitarian Demining Operations" onclick="openModal('images/desminado.jpeg.webp', 'Humanitarian demining operations conducted by demobilized ex-combatants.')">
+                            <div class="media-caption">📷 Restorative Sanctions — Humanitarian Demining Operations by Demobilized Combatants</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 2 -->
+                    <div class="content-block" id="act7-1">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Immediate Full Truth ──► Restricted Freedom vs Lying ──► <strong>20-Year Prison Term</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">2. The JEP Court Mechanics & Conditional Sanctions</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Three Tiers of Sanctions:</strong> Full immediate truth yields five to eight years of restricted freedom, delayed truth leads to standard prison, and denying guilt leads to twenty years in prison.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Broad Jurisdiction:</strong> The court judges demobilized guerrillas, state military personnel, and civilian elites who funded illegal armed groups.</p>
+                                    <p><strong>3. Real Example of Institutional Participation:</strong> Victims participate actively across macro-cases, confronting former leaders like Timochenko for kidnappings and military officers for extrajudicial executions.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/Participacion-de-victimas-en-la-JEP.jpg" alt="Victim Participation in JEP" onclick="openModal('images/Participacion-de-victimas-en-la-JEP.jpg', 'Illustration depicting victim centrality and active participation in the JEP system.')">
+                            <div class="media-caption">📷 Institutional Framework — Active Victim Participation in the JEP Process</div>
+                        </div>
+                    </div>
+
+                    <!-- PILLAR 3 -->
+                    <div class="content-block" id="act7-2">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(158, 42, 43, 0.06); border-left-color: var(--accent-red); color:#9E2A2B;">
+                                    <strong>⚡ CAUSAL CHAIN:</strong> Direct Victim Confrontation ──► Public Confession ──► Restorative Truth ──► <strong>Strict Conditional Protection</strong>
+                                </div>
+                                <h3 class="block-title" style="color:var(--accent-red);">3. Victim Centrality & Public Recognition Hearings</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Active Victim Participation:</strong> Victims are not passive observers, but directly question perpetrators in open court to demand answers about their missing relatives.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Strict Conditional Protection:</strong> Legal benefits are revocable, meaning any perpetrator who hides truth or returns to crime loses all protection and is transferred to standard criminal courts.</p>
+                                    <p><strong>3. Real Example of Public Recognition Hearings:</strong> At the historic Ocaña hearings, army officers publicly confessed face to face with grieving mothers, revealing the exact locations where executed civilians were buried.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-media-col">
+                            <img src="images/ED23ABYIJZCYHE3QOCOVW4MVQA.jpeg.webp" alt="Mother of Execution Victim in Court" onclick="openModal('images/ED23ABYIJZCYHE3QOCOVW4MVQA.jpeg.webp', 'Mother of executed victim wearing Quien Dio La Orden shirt in public JEP hearing.')">
+                            <div class="media-caption">📷 Public Recognition Hearing — Victims Demanding Truth Face to Face</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: ACT VIII (CURRENT IMPLEMENTATION STATUS - 9TH YEAR KROC INSTITUTE REPORT) -->
+        <section class="slide" id="slide-7">
+            <div class="slide-header">
+                <span class="slide-badge">Module 2 • Implementation Metrics, Security Crisis & 2026 Transition</span>
+                <h2 class="slide-title">Act VIII: Current Implementation Status — 9th Year Kroc Institute Assessment</h2>
+            </div>
+            <div class="split-grid-50">
+                <div class="nav-list">
+                    <div class="nav-item-card active red-active" onclick="switchTab('act8', 0)">
+                        <div class="card-step">Pillar 1</div>
+                        <div class="card-label">9th Year Kroc Assessment | Progress, Security Crisis & Transition</div>
+                    </div>
+                </div>
+
+                <div class="display-panel-50" style="border-left: 4px solid var(--accent-gold-bright);">
+                    <!-- COMPREHENSIVE SINGLE PILLAR WITH SIMPLIFIED TEXT -->
+                    <div class="content-block active" id="act8-0">
+                        <div class="block-text-col">
+                            <div>
+                                <div class="quote-box" style="background: rgba(140, 90, 43, 0.06); border-left-color: var(--accent-gold-bright); color: var(--accent-gold-bright);">
+                                    <strong>⚡ CAUSAL LOGIC:</strong> 36% Implementation Benchmark ──► Security & Rural Bottlenecks ──► <strong>2026 State Policy Goals</strong>
+                                </div>
+                                <h3 class="block-title">1. 9th Year Kroc Assessment — Progress, Security & 2026 Transition</h3>
+                                <div class="block-body-text">
+                                    <p style="margin-bottom:8px;"><strong>1. Implementation Progress:</strong> Nine years after the peace accord, thirty-six percent of all commitments are fully finished. Verification leads with sixty-four percent, while rural reform stays behind at only nine percent.</p>
+                                    <p style="margin-bottom:8px;"><strong>2. Security Crisis:</strong> Violence remains a major problem in rural zones. Forced displacement grew by three hundred ten percent, affecting regions like Catatumbo, local leaders, and former combatants.</p>
+                                    <p style="margin-bottom:8px;"><strong>3. Goals for the 2026 Transition:</strong> The new government in 2026 must keep supporting peace as a permanent state policy, fund local projects, and enforce special peace court decisions.</p>
+
+                                    <div class="stat-badges-container" style="margin-top:10px;">
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number" style="color:var(--accent-gold-bright);">36%</div>
+                                            <div class="stat-label">Total Accord Finished</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">9%</div>
+                                            <div class="stat-label">Rural Reform Finished</div>
+                                        </div>
+                                        <div class="stat-badge-box">
+                                            <div class="stat-number">310%</div>
+                                            <div class="stat-label">Displacement Increase</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- NEW LEADER FARC 2026 BANNER -->
+                                    <div class="new-leader-banner" onclick="openModal('images/IMG_20241110_110636.jpeg', 'New Leader FARC 2026 — Official Dossier File')">
+                                        <span>⭐ SPECIAL DOSSIER UPDATE: New Leader FARC 2026</span>
+                                        <span>[ Click to View ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FIXED CHART.JS PANEL (ALL 7 LABELS VISIBLE + ROTATED 35 DEG) -->
+                        <div class="block-media-col" style="padding: 12px 12px 30px 12px; background: #FAF8F5; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; justify-content: space-between; border-radius: 6px; position: relative;">
+                            <h4 style="font-family: var(--font-typewriter); font-size: 0.82rem; color: var(--accent-gold-bright); margin-bottom: 6px; text-align: center; text-transform: uppercase;">
+                                📊 Implementation Rate by Point (Kroc Institute)
+                            </h4>
+                            <div style="position: relative; width: 100%; height: 255px; margin-bottom: 8px;">
+                                <canvas id="krocChartSlide8"></canvas>
+                            </div>
+                            <div class="media-caption" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(244, 241, 234, 0.95); font-size: 0.7rem; padding: 4px 8px; border-top: 1px solid var(--border-subtle); text-align: center;">
+                                📷 Data Source: Kroc Institute 9th Implementation Report 2026
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM CONTROL BAR -->
+    <footer class="bottom-bar">
+        <div class="slide-counter" id="slideCounter">DOSSIER 01 / 08</div>
+        <div class="progress-line-container">
+            <div class="progress-line-fill" id="progressFill"></div>
+        </div>
+        <div class="arrow-controls">
+            <button class="arrow-btn" onclick="prevSlide()">◄</button>
+            <button class="arrow-btn" onclick="nextSlide()">►</button>
+        </div>
+    </footer>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="photoModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">ARCHIVAL DOSSIER FILE VIEWER</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImg" src="" alt="Historical Document">
+                <p class="modal-caption" id="modalCaption"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE (SET FOR 8 SLIDES) -->
+    <script>
+        let currentSlideIndex = 0;
+        const totalSlides = 8;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlideIndex);
+            });
+            document.getElementById('slideCounter').textContent = `DOSSIER 0${currentSlideIndex + 1} / 08`;
+            document.getElementById('progressFill').style.width = `${((currentSlideIndex + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlideIndex = idx;
+            updateSlide();
+            document.getElementById('dirPopup').classList.remove('active');
+        }
+
+        function toggleDirectory() {
+            document.getElementById('dirPopup').classList.toggle('active');
+        }
+
+        function switchTab(groupPrefix, tabIdx) {
+            const currentSlide = document.querySelector('.slide.active');
+            currentSlide.querySelectorAll('.nav-item-card').forEach((card, idx) => {
+                card.classList.toggle('active', idx === tabIdx);
+            });
+            currentSlide.querySelectorAll('.content-block').forEach((block, idx) => {
+                block.classList.toggle('active', idx === tabIdx);
+            });
+        }
+
+        function openModal(imageSrc, captionText) {
+            document.getElementById('modalImg').src = imageSrc;
+            document.getElementById('modalCaption').textContent = captionText;
+            document.getElementById('photoModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').classList.remove('active');
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key >= '1' && e.key <= '8') {
+                goToSlide(parseInt(e.key) - 1);
+            } else if (e.key === 'Escape') {
+                closeModal();
+                document.getElementById('dirPopup').classList.remove('active');
+            }
+        });
+
+        // Initialize Chart.js for Slide 8 (Forces ALL 7 labels visible with 35deg rotation)
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctxKroc = document.getElementById('krocChartSlide8')?.getContext('2d');
+            if (ctxKroc) {
+                new Chart(ctxKroc, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'P1: Rural',
+                            'P2: Polit',
+                            'P3: EndWar',
+                            'P4: Drugs',
+                            'P5: Victims',
+                            'P6: Verify',
+                            'Overall'
+                        ],
+                        datasets: [{
+                            label: '% Finished',
+                            data: [9, 14, 51, 29, 43, 64, 36],
+                            backgroundColor: [
+                                '#E76F51',
+                                '#F4A261',
+                                '#2A9D8F',
+                                '#E9C46A',
+                                '#264653',
+                                '#2D5A27',
+                                '#8C5A2B'
+                            ],
+                            borderColor: [
+                                '#C0563C',
+                                '#D98236',
+                                '#1F7A6E',
+                                '#C7A348',
+                                '#19303B',
+                                '#1E3F1A',
+                                '#6D441F'
+                            ],
+                            borderWidth: 1.5,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                bottom: 10,
+                                top: 5,
+                                left: 0,
+                                right: 0
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 32, 28, 0.9)',
+                                titleFont: { family: 'Courier Prime', size: 11, weight: 'bold' },
+                                bodyFont: { family: 'Inter', size: 11 },
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` Finished: ${context.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: {
+                                    color: 'rgba(210, 201, 184, 0.3)'
+                                },
+                                ticks: {
+                                    callback: function(value) { return value + '%'; },
+                                    font: { family: 'Courier Prime', size: 9, weight: 'bold' },
+                                    color: '#5C655E'
+                                }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    autoSkip: false,
+                                    maxRotation: 35,
+                                    minRotation: 35,
+                                    font: { family: 'Courier Prime', size: 8.5, weight: 'bold' },
+                                    color: '#1A201C'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
